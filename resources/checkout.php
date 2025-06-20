@@ -25,114 +25,145 @@ require_once '../databases/koneksi.php';
   </div>
 </header>
 
-<main class="container">
-        <div class="cart-container" style="width:1330px">
-        <div class="cart-items" style="margin-top: 20px;"> 
-        <div style="display: flex; align-items: center; margin-bottom: 18px;">
-            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Alamat" style="width: 25px; height: 25px; margin-right: 10px;">
-            <h2 style="margin: 0; font-size: 1.5rem;">Alamat Pengiriman</h2>
+<main class="container" style="display: flex; flex-direction: row; justify-content: center; gap: 40px; align-items: flex-start; margin-top: 30px;">
+    <!-- Kiri: Alamat & Checkout Barang -->
+    <div style="flex: 1 1 0; max-width: 700px;">
+        <!-- Alamat Pengiriman -->
+        <div class="cart-items" style="margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; margin-bottom: 18px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Alamat" style="width: 25px; height: 25px; margin-right: 10px;">
+                <h2 style="margin: 0; font-size: 1.5rem;">Alamat Pengiriman</h2>
+            </div>
+            <div>
+                <span style="font-weight: 700; color: #5a4700;"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>, 
+                <span style="font-size: 0.95em; color: #a17b00;"><?php echo htmlspecialchars($_SESSION['user']['alamat']); ?></span>
+            </div>
         </div>
-        <div>
-            <span style="font-weight: 700; color: #5a4700;"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>, 
-            <span style="font-size: 0.95em; color: #a17b00;"><?php echo htmlspecialchars($_SESSION['user']['alamat']); ?></span>
-        </div>
-    </div>
-</main>
-
-<main class="container">
-    <div class="cart-container" style="width:1330px">
-    <div class="cart-items" style="margin-top: -20px;">        
-        <?php
-        
-        // Ambil data keranjang dari session
-        $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
-        ?>
-
-        <h1 class="checkout-title" style="margin-bottom: 30px; font-size: 1.5rem;">Checkout Barang</h1>
-        <?php if (empty($cart)): ?>
-            <p>Keranjang belanja kosong.</p>
-        <?php else: ?>
-            <table class="checkout-table" style="width:100%; border-collapse:collapse;">
-                <thead>
-                    <tr style="background:#f6f6f6;">
-                        <th style="padding:12px 8px; text-align:left;">Gambar</th>
-                        <th style="padding:12px 8px; text-align:left;">Nama</th>
-                        <th style="padding:12px 8px; text-align:right;">Harga</th>
-                        <th style="padding:12px 8px; text-align:center;">Jumlah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cart as $item): ?>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px 8px;">
-                                <img src="../gambar/<?php echo htmlspecialchars($item['gambar']); ?>" alt="<?php echo htmlspecialchars($item['nama']); ?>" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
-                            </td>
-                            <td style="padding:10px 8px; font-weight:500;">
-                                <?php echo htmlspecialchars($item['nama']); ?>
-                            </td>
-                            <td style="padding:10px 8px; text-align:right;">
-                                Rp <?php echo number_format($item['harga'], 0, ',', '.'); ?>
-                            </td>
-                            <td style="padding:10px 8px; text-align:center;">
-                                <?php echo (int)$item['quantity']; ?>
-                            </td>
+        <!-- Checkout Barang -->
+        <div class="cart-items">
+            <?php
+            // Ambil data keranjang dari session
+            $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
+            ?>
+            <h1 class="checkout-title" style="margin-bottom: 30px; font-size: 1.5rem;">Checkout Barang</h1>
+            <?php if (empty($cart)): ?>
+                <p>Keranjang belanja kosong.</p>
+            <?php else: ?>
+                <table class="checkout-table" style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:#f6f6f6;">
+                            <th style="padding:12px 8px; text-align:left;">Gambar</th>
+                            <th style="padding:12px 8px; text-align:left;">Nama</th>
+                            <th style="padding:12px 8px; text-align:right;">Harga</th>
+                            <th style="padding:12px 8px; text-align:center;">Jumlah</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
-</main>
-
-<main>
-    <div class="order-summary" style="position: fixed; top: 115px; right: 40px; width: 550px; z-index: 1000;">
-    <h2 class="summary-title" style="font-size: 1.5rem;">Metode Pembayaran</h2>
-    <form method="post" action="proses_checkout.php">
-        <div style="margin-bottom: 18px;">
-            <label>
-                <input type="radio" name="metode_pembayaran" value="transfer_bank" required>
-                Transfer Bank
-            </label>
-            <label>
-                <input type="radio" name="metode_pembayaran" value="cod" required>
-                Cash On Delivery (COD)
-            </label>
-        <!-- Anda bisa menambahkan instruksi pembayaran di sini jika diperlukan -->
-    </form>
-</main>
-
-<main>
-    <div class="order-summary" style="position: fixed; top: 335px; right: 40px; width: 550px; z-index: 1000;">
-    <h2 class="summary-title" style="font-size: 1.5rem;">Rincian Pembayaran</h2>
-    <div id="selected-items-list"></div>
-    <?php
-    // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
-    $selectedCount = 0;
-    $subtotal = 0;
-    foreach ($cart as $item) {
-        $selectedCount += 1;
-        $subtotal += $item['harga'] * $item['quantity'];
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cart as $item): ?>
+                            <tr style="border-bottom:1px solid #eee;">
+                                <td style="padding:10px 8px;">
+                                    <img src="../gambar/<?php echo htmlspecialchars($item['gambar']); ?>" alt="<?php echo htmlspecialchars($item['nama']); ?>" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+                                </td>
+                                <td style="padding:10px 8px; font-weight:500;">
+                                    <?php echo htmlspecialchars($item['nama']); ?>
+                                </td>
+                                <td style="padding:10px 8px; text-align:right;">
+                                    Rp <?php echo number_format($item['harga'], 0, ',', '.'); ?>
+                                </td>
+                                <td style="padding:10px 8px; text-align:center;">
+                                    <?php echo (int)$item['quantity']; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+    <!-- Kanan: Metode & Rincian Pembayaran -->
+    <div style="flex: 0 0 500px; max-width: 500px; display: flex; flex-direction: column; gap: 30px;">
+        <!-- Metode Pembayaran (Card) -->
+        <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 28px 28px 18px 28px;">
+            <h2 class="summary-title" style="font-size: 1.5rem; margin-bottom: 18px;">Metode Pembayaran</h2>
+            <form method="post" action="proses_checkout.php" id="checkout-form">
+                <div style="margin-bottom: 10px;">
+                    <label>
+                        <input type="radio" name="metode_pembayaran" value="transfer_bank" required onchange="updateMetodePembayaranLabel(this)">
+                        Transfer Bank
+                    </label>
+                    <label style="margin-left: 20px;">
+                        <input type="radio" name="metode_pembayaran" value="cod" required onchange="updateMetodePembayaranLabel(this)">
+                        Cash On Delivery (COD)
+                    </label>
+                </div>
+        </div>
+        <!-- Rincian Pembayaran (Card) -->
+        <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 28px;">
+            <h2 class="summary-title" style="font-size: 1.5rem; margin-bottom: 18px;">Rincian Pembayaran</h2>
+            <div id="selected-items-list"></div>
+            <div class="summary-row" id="metode-pembayaran-row" style="display:none;">
+                <span>Metode Pembayaran</span>
+                <span id="metode-pembayaran-value"></span>
+            </div>
+            <?php
+            // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
+            $selectedCount = 0;
+            $subtotal = 0;
+            foreach ($cart as $item) {
+                $selectedCount += 1;
+                $subtotal += $item['harga'] * $item['quantity'];
+            }
+            $diskon = 0;
+            if ($subtotal >= 5000000) {
+                $diskon = 0.1 * $subtotal;
+            }
+            $total = $subtotal - $diskon;
+            ?>
+            <div class="summary-row">
+                <span>Subtotal (<span id="selected-count"><?php echo $selectedCount; ?></span> produk)</span>
+                <span id="subtotal">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></span>
+            </div>
+            <?php if ($diskon > 0): ?>
+            <div class="summary-row" style="color:green;">
+                <span>Diskon 10%</span>
+                <span id="diskon">-Rp <?php echo number_format($diskon, 0, ',', '.'); ?></span>
+            </div>
+            <?php endif; ?>
+            <div class="summary-row summary-total" style="font-weight:700;">
+                <span>Total Pembayaran</span>
+                <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
+            </div>
+            <button class="checkout-btn" style="width:100%;margin-top:18px;">Checkout</button>
+            </form>
+        </div>
+    </div>
+    <script>
+    function updateMetodePembayaranLabel(radio) {
+        var value = radio.value;
+        var label = '';
+        if (value === 'transfer_bank') {
+            label = 'Transfer Bank';
+        } else if (value === 'cod') {
+            label = 'Cash On Delivery (COD)';
+        }
+        document.getElementById('metode-pembayaran-value').textContent = label;
+        document.getElementById('metode-pembayaran-row').style.display = 'flex';
     }
-    $diskon = 0;
-    if ($subtotal >= 5000000) {
-        $diskon = 0.1 * $subtotal;
-    }
-    $total = $subtotal - $diskon;
-    ?>
-    <div class="summary-row">
-        <span>Subtotal (<span id="selected-count"><?php echo $selectedCount; ?></span> produk)</span>
-        <span id="subtotal">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></span>
-    </div>
-    <?php if ($diskon > 0): ?>
-    <div class="summary-row" style="color:green;">
-        <span>Diskon 10%</span>
-        <span id="diskon">-Rp <?php echo number_format($diskon, 0, ',', '.'); ?></span>
-    </div>
-    <?php endif; ?>
-    <div class="summary-row summary-total">
-        <span>Total Pembayaran</span>
-        <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
-    </div>
-    <button class="checkout-btn">Checkout</button>
+
+    // Inisialisasi jika sudah ada yang terpilih saat reload
+    document.addEventListener('DOMContentLoaded', function() {
+        var checked = document.querySelector('input[name="metode_pembayaran"]:checked');
+        if (checked) {
+            updateMetodePembayaranLabel(checked);
+        }
+        // Tambahkan event listener jika user memilih setelah reload
+        document.querySelectorAll('input[name="metode_pembayaran"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                updateMetodePembayaranLabel(this);
+            });
+        });
+    });
+    </script>
 </main>
 
 <script>

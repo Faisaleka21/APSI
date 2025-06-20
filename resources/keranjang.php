@@ -109,89 +109,89 @@
         $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
         ?>
 
-        <div class="cart-items" style="margin-top: 20px;">
-            <h1 class="cart-title" style="font-size: 1.5rem;">Keranjang Saya</h1>
-            <?php if (!empty($cart)): ?>
-                <div style="margin-bottom:10px;">
-                    <label style="cursor:pointer;">
-                        <input type="checkbox" class="item-checkbox" id="select-all-checkbox" style="vertical-align:middle; margin-right:5px;">
-                        Pilih Semua
-                    </label>
-                </div>
-            <?php endif; ?>
-            <?php if (empty($cart)): ?>
-                <p>Keranjang belanja kosong.</p>
-            <?php else: ?>
-                <?php foreach ($cart as $item): ?>
-                    <div class="cart-item" data-id="<?php echo $item['id']; ?>">
-                        <input type="checkbox" class="item-checkbox">
-                        <a href="detail.php?id=<?php echo urlencode($item['id']); ?>">
-                            <img src="../gambar/<?php echo htmlspecialchars($item['gambar']); ?>" alt="<?php echo htmlspecialchars($item['nama']); ?>" class="item-image">
-                        </a>
-                        <div class="item-details">
-                            <h3 class="item-name"><?php echo htmlspecialchars($item['nama']); ?></h3>
-                            <p class="item-price">Rp <?php echo number_format($item['harga'], 0, ',', '.'); ?></p>
-                        </div>
-                        <div class="item-actions">
-                            <form method="post" class="quantity-form" style="display:inline;">
-                                <input type="hidden" name="update_id" value="<?php echo $item['id']; ?>">
-                                <div class="quantity-control">
-                                    <button type="button" class="quantity-btn minus-btn">-</button>
-                                    <input type="text" name="update_quantity" class="quantity-input" value="<?php echo (int)$item['quantity']; ?>" readonly>
-                                    <button type="button" class="quantity-btn plus-btn">+</button>
-                                </div>
-                            </form>
-                            <form method="post" class="remove-form" style="display:inline;">
-                                <input type="hidden" name="remove_id" value="<?php echo $item['id']; ?>">
-                                <button type="submit" class="remove-btn" title="Hapus item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
+        <div style="display: flex; flex-direction: row; align-items: flex-start;">
+            <div class="cart-items" style="margin-top: 20px; flex: 1; width:700px ; max-width: 700px;">
+                <h1 class="cart-title" style="font-size: 1.5rem;">Keranjang Saya</h1>
+                <?php if (!empty($cart)): ?>     
+                    <div style="margin-bottom:10px;">
+                        <label style="cursor:pointer;">
+                            <input type="checkbox" class="item-checkbox" id="select-all-checkbox" style="vertical-align:middle; margin-right:5px;">
+                            Pilih Semua
+                        </label>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                <?php endif; ?>
+                <?php if (empty($cart)): ?>
+                    <p>Keranjang belanja kosong.</p>
+                <?php else: ?>
+                    <?php foreach ($cart as $item): ?>
+                        <div class="cart-item" data-id="<?php echo $item['id']; ?>">
+                            <input type="checkbox" class="item-checkbox">
+                            <a href="detail.php?id=<?php echo urlencode($item['id']); ?>">
+                                <img src="../gambar/<?php echo htmlspecialchars($item['gambar']); ?>" alt="<?php echo htmlspecialchars($item['nama']); ?>" class="item-image">
+                            </a>
+                            <div class="item-details">
+                                <h3 class="item-name"><?php echo htmlspecialchars($item['nama']); ?></h3>
+                                <p class="item-price">Rp <?php echo number_format($item['harga'], 0, ',', '.'); ?></p>
+                            </div>
+                            <div class="item-actions">
+                                <form method="post" class="quantity-form" style="display:inline;">
+                                    <input type="hidden" name="update_id" value="<?php echo $item['id']; ?>">
+                                    <div class="quantity-control">
+                                        <button type="button" class="quantity-btn minus-btn">-</button>
+                                        <input type="text" name="update_quantity" class="quantity-input" value="<?php echo (int)$item['quantity']; ?>" readonly>
+                                        <button type="button" class="quantity-btn plus-btn">+</button>
+                                    </div>
+                                </form>
+                                <form method="post" class="remove-form" style="display:inline;">
+                                    <input type="hidden" name="remove_id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" class="remove-btn" title="Hapus item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <div class="order-summary" style="margin-left: 25px; margin-top: 20px; width: 550px; position: static;">
+                <h2 class="summary-title">Ringkasan Pesanan</h2>
+                <div id="selected-items-list"></div>
+                <?php
+                // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
+                $selectedCount = 0;
+                $subtotal = 0;
+                foreach ($cart as $item) {
+                    $selectedCount += 1;
+                    $subtotal += $item['harga'] * $item['quantity'];
+                }
+                $diskon = 0;
+                if ($subtotal >= 5000000) {
+                    $diskon = 0.1 * $subtotal;
+                }
+                $total = $subtotal - $diskon;
+                ?>
+                <div class="summary-row">
+                    <span>Subtotal (<span id="selected-count"><?php echo $selectedCount; ?></span> produk)</span>
+                    <span id="subtotal">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></span>
+                </div>
+                <?php if ($diskon > 0): ?>
+                <div class="summary-row" style="color:green;">
+                    <span>Diskon 10%</span>
+                    <span id="diskon">-Rp <?php echo number_format($diskon, 0, ',', '.'); ?></span>
+                </div>
+                <?php endif; ?>
+                <div class="summary-row summary-total">
+                    <span>Total Pembayaran</span>
+                    <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
+                </div>
+                <form action="checkout.php" method="get" style="margin-top:10px;">
+                    <button type="submit" class="checkout-btn">Lanjut ke Pembayaran</button>
+                </form>
+            </div>
         </div>
-    </div>
-<div class="order-summary" style="position: fixed; top: 115px; right: 40px; width: 550px; z-index: 1000;">
-    <h2 class="summary-title">Ringkasan Pesanan</h2>
-    <div id="selected-items-list"></div>
-    <?php
-    // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
-    $selectedCount = 0;
-    $subtotal = 0;
-    foreach ($cart as $item) {
-        $selectedCount += 1;
-        $subtotal += $item['harga'] * $item['quantity'];
-    }
-    $diskon = 0;
-    if ($subtotal >= 5000000) {
-        $diskon = 0.1 * $subtotal;
-    }
-    $total = $subtotal - $diskon;
-    ?>
-    <div class="summary-row">
-        <span>Subtotal (<span id="selected-count"><?php echo $selectedCount; ?></span> produk)</span>
-        <span id="subtotal">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></span>
-    </div>
-    <?php if ($diskon > 0): ?>
-    <div class="summary-row" style="color:green;">
-        <span>Diskon 10%</span>
-        <span id="diskon">-Rp <?php echo number_format($diskon, 0, ',', '.'); ?></span>
-    </div>
-    <?php endif; ?>
-    <div class="summary-row summary-total">
-        <span>Total Pembayaran</span>
-        <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
-    </div>
-    <form action="checkout.php" method="get" style="margin-top:10px;">
-        <button type="submit" class="checkout-btn">Lanjut ke Pembayaran</button>
-    </form>
-</div>
-</main>
 
 <script>
     // Ambil data produk dari PHP ke JavaScript
