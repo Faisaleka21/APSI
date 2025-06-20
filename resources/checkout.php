@@ -83,7 +83,7 @@ require_once '../databases/koneksi.php';
     <!-- Kanan: Metode & Rincian Pembayaran -->
     <div style="flex: 0 0 500px; max-width: 500px; display: flex; flex-direction: column; gap: 30px;">
         <!-- Metode Pembayaran (Card) -->
-        <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 28px 28px 18px 28px;">
+        <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 10px 28px 18px 28px;">
             <h2 class="summary-title" style="font-size: 1.5rem; margin-bottom: 18px;">Metode Pembayaran</h2>
             <form method="post" action="proses_checkout.php" id="checkout-form">
                 <div style="margin-bottom: 10px;">
