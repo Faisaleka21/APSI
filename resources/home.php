@@ -135,6 +135,8 @@ header("Expires: 0");
   </header>
   <main class="container" role="main" tabindex="-1">
 
+
+          <!-- main content -->
     <section class="main-slider" aria-label="Featured furniture products image slider" style="max-width: 1500px; height:600px; margin-left: auto; margin-right: auto;">
       <div class="slider-wrapper" id="slider-wrapper">
         <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5c71b6cc-51c7-41a6-a1bd-30026073c362.png" alt="Featured modern yellow sofa with bright background" class="slide" />

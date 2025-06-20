@@ -20,7 +20,7 @@
   </div>
 </header>
 
-<main class="container">
+<main class="container" style="margin-left: auto; margin-right: auto;">
     <div class="cart-container" style="width:1350px">
         <?php
         session_start();
