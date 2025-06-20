@@ -26,24 +26,21 @@ require_once '../databases/koneksi.php';
 </header>
 
 <main class="container">
-        <div class="cart-container" style="width:1350px">
+        <div class="cart-container" style="width:1330px">
         <div class="cart-items" style="margin-top: 20px;"> 
         <div style="display: flex; align-items: center; margin-bottom: 18px;">
-            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Alamat" style="width: 28px; height: 28px; margin-right: 10px;">
-            <h2 style="margin: 0; font-size: 1.4rem;">Alamat Pengiriman</h2>
+            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Alamat" style="width: 25px; height: 25px; margin-right: 10px;">
+            <h2 style="margin: 0; font-size: 1.5rem;">Alamat Pengiriman</h2>
         </div>
         <div>
-          <div style="font-weight: 700; color: #5a4700;">
-            <?php echo htmlspecialchars($_SESSION['user']['username']); ?>
-          </div>
-          <div style="font-size: 0.95em; color: #a17b00;">
-            <?php echo htmlspecialchars($_SESSION['user']['alamat']); ?>
-          </div>
+            <span style="font-weight: 700; color: #5a4700;"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>, 
+            <span style="font-size: 0.95em; color: #a17b00;"><?php echo htmlspecialchars($_SESSION['user']['alamat']); ?></span>
+        </div>
     </div>
 </main>
 
 <main class="container">
-    <div class="cart-container" style="width:1350px">
+    <div class="cart-container" style="width:1330px">
     <div class="cart-items" style="margin-top: -20px;">        
         <?php
         
@@ -51,7 +48,7 @@ require_once '../databases/koneksi.php';
         $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
         ?>
 
-        <h1 class="checkout-title" style="margin-bottom: 30px; font-size: 2rem;">Checkout Barang</h1>
+        <h1 class="checkout-title" style="margin-bottom: 30px; font-size: 1.5rem;">Checkout Barang</h1>
         <?php if (empty($cart)): ?>
             <p>Keranjang belanja kosong.</p>
         <?php else: ?>
@@ -84,8 +81,28 @@ require_once '../databases/koneksi.php';
                 </tbody>
             </table>
         <?php endif; ?>
+</main>
+
+<main>
     <div class="order-summary" style="position: fixed; top: 115px; right: 40px; width: 550px; z-index: 1000;">
-    <h2 class="summary-title">Ringkasan Pesanan</h2>
+    <h2 class="summary-title" style="font-size: 1.5rem;">Metode Pembayaran</h2>
+    <form method="post" action="proses_checkout.php">
+        <div style="margin-bottom: 18px;">
+            <label>
+                <input type="radio" name="metode_pembayaran" value="transfer_bank" required>
+                Transfer Bank
+            </label>
+            <label>
+                <input type="radio" name="metode_pembayaran" value="cod" required>
+                Cash On Delivery (COD)
+            </label>
+        <!-- Anda bisa menambahkan instruksi pembayaran di sini jika diperlukan -->
+    </form>
+</main>
+
+<main>
+    <div class="order-summary" style="position: fixed; top: 335px; right: 40px; width: 550px; z-index: 1000;">
+    <h2 class="summary-title" style="font-size: 1.5rem;">Rincian Pembayaran</h2>
     <div id="selected-items-list"></div>
     <?php
     // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
@@ -115,8 +132,7 @@ require_once '../databases/koneksi.php';
         <span>Total Pembayaran</span>
         <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
     </div>
-    <button class="checkout-btn">Lanjut ke Pembayaran</button>
-</div>
+    <button class="checkout-btn">Checkout</button>
 </main>
 
 <script>
