@@ -110,7 +110,7 @@
         ?>
 
         <div class="cart-items" style="margin-top: 20px;">
-            <h1 class="cart-title">Keranjang Belanja</h1>
+            <h1 class="cart-title" style="font-size: 1.5rem;">Keranjang Saya</h1>
             <?php if (!empty($cart)): ?>
                 <div style="margin-bottom:10px;">
                     <label style="cursor:pointer;">
