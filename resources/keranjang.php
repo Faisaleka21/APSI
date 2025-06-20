@@ -1,28 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="../gambar/logoonly.png">
-<link rel="stylesheet" href="../css/home.css">
-<link rel="stylesheet" href="../css/keranjang.css">
-<title>FurniSpace | Keranjang</title>
-
-</head>
-<body>
-<header role="banner">
-  <div class="container header-inner">
-    
-    <a class="logo" aria-label="Furnispace homepage" href="home.php" style="text-decoration: none; margin-left: 20px;">
-        <img src="../gambar/logoonly.png" alt="Logo" class="logo" style="width: 50px; height: 50px;">
-         Furnispace
-    </a>
-  </div>
-</header>
-
-<main class="container" style="margin-left: auto; margin-right: auto;">
-    <div class="cart-container" style="width:1350px">
-        <?php
+<?php
         session_start();
 
         // Koneksi ke database
@@ -109,8 +85,31 @@
         $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
         ?>
 
-        <div style="display: flex; flex-direction: row; align-items: flex-start;">
-            <div class="cart-items" style="margin-top: 20px; flex: 1; width:700px ; max-width: 700px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../gambar/logoonly.png">
+<link rel="stylesheet" href="../css/home.css">
+<link rel="stylesheet" href="../css/keranjang.css">
+<title>FurniSpace | Keranjang</title>
+
+</head>
+<body>
+<header role="banner">
+  <div class="container header-inner">
+    
+    <a class="logo" aria-label="Furnispace homepage" href="home.php" style="text-decoration: none; margin-left: 20px;">
+        <img src="../gambar/logoonly.png" alt="Logo" class="logo" style="width: 50px; height: 50px;">
+         Furnispace
+    </a>
+  </div>
+</header>
+
+<main class="container" style="display: flex; flex-direction: row; justify-content: center; gap: 40px; align-items: flex-start; margin-top: 30px; margin-left: auto; margin-right: auto;">
+            <div style="flex: 1 1 0; max-width: 700px;"> 
+            <div class="cart-items" style="margin-top: 0px;">
                 <h1 class="cart-title" style="font-size: 1.5rem;">Keranjang Saya</h1>
                 <?php if (!empty($cart)): ?>     
                     <div style="margin-bottom:10px;">
@@ -156,8 +155,10 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-            <div class="order-summary" style="margin-left: 25px; margin-top: 20px; width: 550px; position: static;">
-                <h2 class="summary-title">Ringkasan Pesanan</h2>
+            </div>
+            <div style="flex: 0 0 500px; max-width: 500px; display: flex; flex-direction: column; gap: 30px;">
+            <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 28px;">
+                <h2 class="summary-title" style="font-size: 1.5rem; margin-bottom: 18px;">Ringkasan Pesanan</h2>
                 <div id="selected-items-list"></div>
                 <?php
                 // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total

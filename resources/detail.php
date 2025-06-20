@@ -129,7 +129,7 @@
                                     });
                                 });
                             </script>
-                            <form id="checkoutForm" method="post" action="../databases/checkout.php" style="margin: 0;">
+                            <form id="checkoutForm" method="post" action="../resources/checkout.php" style="margin: 0;">
                                 <input type="hidden" name="product_id" value="<?php echo $produk['id']; ?>">
                                 <input type="hidden" name="nama" value="<?php echo htmlspecialchars($produk['nama']); ?>">
                                 <input type="hidden" name="harga" value="<?php echo $produk['harga']; ?>">
@@ -169,12 +169,20 @@
                 </form>
                 <script>document.getElementById('cartForm').submit();</script>";
             } elseif (isset($_POST['checkout'])) {
-                // Redirect ke checkout.php dengan POST
-                echo "<form id='checkoutForm' method='post' action='../databases/checkout.php' style='display:none;'>
-                <input type='hidden' name='product_id' value='{$product_id}'>
-                <input type='hidden' name='quantity' value='{$quantity}'>
-                </form>
-                <script>document.getElementById('checkoutForm').submit();</script>";
+                // Simpan data produk ke session untuk checkout dari detail
+                $_SESSION['detail_checkout'] = [
+                    [
+                        'id' => $produk['id'],
+                        'nama' => $produk['nama'],
+                        'harga' => $produk['harga'],
+                        'gambar' => $produk['gambar'],
+                        'quantity' => $quantity
+                    ]
+                ];
+                $_SESSION['checkout_source'] = 'detail';
+                // Redirect ke checkout.php
+                header('Location: ../resources/checkout.php');
+                exit;
             }
             }
         } else {
