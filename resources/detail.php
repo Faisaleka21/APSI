@@ -112,7 +112,7 @@
                                 document.getElementById('addToCartForm').addEventListener('submit', function(e) {
                                     e.preventDefault();
                                     var formData = new FormData(this);
-                                    fetch('../resources/keranjang.php', {
+                                    fetch('keranjang.php', {
                                         method: 'POST',
                                         body: formData
                                     })
@@ -129,16 +129,6 @@
                                     });
                                 });
                             </script>
-                            <form id="checkoutForm" method="post" action="../resources/checkout.php" style="margin: 0;">
-                                <input type="hidden" name="product_id" value="<?php echo $produk['id']; ?>">
-                                <input type="hidden" name="nama" value="<?php echo htmlspecialchars($produk['nama']); ?>">
-                                <input type="hidden" name="harga" value="<?php echo $produk['harga']; ?>">
-                                <input type="hidden" name="gambar" value="<?php echo htmlspecialchars($produk['gambar']); ?>">
-                                <input type="hidden" name="quantity" id="checkout_quantity" value="1">
-                                <button type="submit" name="checkout" style="background: #5a4700; color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-weight: 600; font-size: 1em; cursor: pointer;">
-                                    <i class="fa fa-credit-card"></i> Checkout
-                                </button>
-                            </form>
                         </div>
                         <script>
                             // Sinkronkan input jumlah ke kedua form tombol
@@ -163,27 +153,12 @@
             $quantity = intval($_POST['quantity']);
             if (isset($_POST['add_to_cart'])) {
                 // Redirect ke keranjang.php dengan POST
-                echo "<form id='cartForm' method='post' action='../resources/keranjang.php' style='display:none;'>
+                echo "<form id='cartForm' method='post' action='keranjang.php' style='display:none;'>
                 <input type='hidden' name='id' value='{$product_id}'>
                 <input type='hidden' name='quantity' value='{$quantity}'>
                 </form>
                 <script>document.getElementById('cartForm').submit();</script>";
-            } elseif (isset($_POST['checkout'])) {
-                // Simpan data produk ke session untuk checkout dari detail
-                $_SESSION['detail_checkout'] = [
-                    [
-                        'id' => $produk['id'],
-                        'nama' => $produk['nama'],
-                        'harga' => $produk['harga'],
-                        'gambar' => $produk['gambar'],
-                        'quantity' => $quantity
-                    ]
-                ];
-                $_SESSION['checkout_source'] = 'detail';
-                // Redirect ke checkout.php
-                header('Location: ../resources/checkout.php');
-                exit;
-            }
+            } 
             }
         } else {
             echo "<div style='color: #d84315; font-weight: bold;'>Produk tidak ditemukan.</div>";

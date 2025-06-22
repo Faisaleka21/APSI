@@ -1,7 +1,22 @@
 <?php
 session_start();
 require_once '../databases/koneksi.php';
+
+// Filter hanya item yang dipilih
+$selected_ids = isset($_POST['selected_items']) ? $_POST['selected_items'] : [];
+
+$selected_cart = [];
+if (!empty($_SESSION['add_to_cart'])) {
+    foreach ($_SESSION['add_to_cart'] as $item) {
+        if (in_array($item['id'], $selected_ids)) {
+            $selected_cart[] = $item;
+        }
+    }
+}
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +26,7 @@ require_once '../databases/koneksi.php';
 <link rel="icon" type="image/png" href="../gambar/logoonly.png">
 <link rel="stylesheet" href="../css/home.css">
 <link rel="stylesheet" href="../css/keranjang.css">
-<title>FurniSpace | Keranjang</title>
+<title>FurniSpace | Checkout</title>
 
 </head>
 <body>
@@ -41,12 +56,8 @@ require_once '../databases/koneksi.php';
         </div>
         <!-- Checkout Barang -->
         <div class="cart-items">
-            <?php
-            // Ambil data keranjang dari session
-            $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
-            ?>
             <h1 class="checkout-title" style="margin-bottom: 30px; font-size: 1.5rem;">Checkout Barang</h1>
-            <?php if (empty($cart)): ?>
+            <?php if (empty($selected_cart)): ?>
                 <p>Keranjang belanja kosong.</p>
             <?php else: ?>
                 <table class="checkout-table" style="width:100%; border-collapse:collapse;">
@@ -59,7 +70,7 @@ require_once '../databases/koneksi.php';
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($cart as $item): ?>
+                        <?php foreach ($selected_cart as $item): ?>
                             <tr style="border-bottom:1px solid #eee;">
                                 <td style="padding:10px 8px;">
                                     <img src="../gambar/<?php echo htmlspecialchars($item['gambar']); ?>" alt="<?php echo htmlspecialchars($item['nama']); ?>" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
@@ -109,7 +120,7 @@ require_once '../databases/koneksi.php';
             // Hitung subtotal, jumlah produk, biaya pengiriman, diskon, dan total
             $selectedCount = 0;
             $subtotal = 0;
-            foreach ($cart as $item) {
+            foreach ($selected_cart as $item) {
                 $selectedCount += 1;
                 $subtotal += $item['harga'] * $item['quantity'];
             }
@@ -133,6 +144,9 @@ require_once '../databases/koneksi.php';
                 <span>Total Pembayaran</span>
                 <span id="total">Rp <?php echo number_format($total, 0, ',', '.'); ?></span>
             </div>
+            <?php foreach ($selected_cart as $item): ?>
+                <input type="hidden" name="selected_items[]" value="<?php echo $item['id']; ?>">
+            <?php endforeach; ?>
             <button class="checkout-btn" style="width:100%;margin-top:18px;">Checkout</button>
             </form>
         </div>
@@ -176,7 +190,7 @@ require_once '../databases/koneksi.php';
             'gambar' => $item['gambar'],
             'quantity' => $item['quantity'],
         ];
-    }, $cart)); ?>;
+    }, $selected_cart)); ?>;
 
     // Simpan status ceklist di localStorage
     function getCheckedStatus() {
