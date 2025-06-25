@@ -41,7 +41,9 @@ if (!empty($_SESSION['add_to_cart'])) {
 </header>
 
 <main class="container" style="display: flex; flex-direction: row; justify-content: center; gap: 40px; align-items: flex-start; margin-top: 30px; margin-left: auto; margin-right: auto;">
-    <!-- Kiri: Alamat & Checkout Barang -->
+    
+
+<!-- Kiri: Alamat & Checkout Barang -->
     <div style="flex: 1 1 0; max-width: 700px;">
         <!-- Alamat Pengiriman -->
         <div class="cart-items" style="margin-bottom: 30px;">
@@ -96,7 +98,9 @@ if (!empty($_SESSION['add_to_cart'])) {
         <!-- Metode Pembayaran (Card) -->
         <div class="order-summary" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 10px 28px 18px 28px;">
             <h2 class="summary-title" style="font-size: 1.5rem; margin-bottom: 18px;">Metode Pembayaran</h2>
-            <form method="post" action="proses_checkout.php" id="checkout-form">
+
+            <!-- form -->
+            <form method="POST" action="proses_checkout.php" id="checkout-form">
                 <div style="margin-bottom: 10px;">
                     <label>
                         <input type="radio" name="metode_pembayaran" value="transfer_bank" required onchange="updateMetodePembayaranLabel(this)">
@@ -148,9 +152,11 @@ if (!empty($_SESSION['add_to_cart'])) {
                 <input type="hidden" name="selected_items[]" value="<?php echo $item['id']; ?>">
             <?php endforeach; ?>
             <button class="checkout-btn" style="width:100%;margin-top:18px;">Checkout</button>
-            </form>
+               </form>
+            <!-- end form -->
         </div>
     </div>
+
     <script>
     function updateMetodePembayaranLabel(radio) {
         var value = radio.value;
@@ -178,6 +184,7 @@ if (!empty($_SESSION['add_to_cart'])) {
         });
     });
     </script>
+ 
 </main>
 
 <script>

@@ -3,20 +3,6 @@
 session_start();
 require_once '../databases/koneksi.php';
 
-// Setelah transaksi berhasil, hapus barang yang telah dibeli dari session keranjang
-if (isset($_POST['selected_items']) && is_array($_POST['selected_items'])) {
-    $selected_ids = $_POST['selected_items'];
-
-    if (isset($_SESSION['add_to_cart'])) {
-        $_SESSION['add_to_cart'] = array_filter($_SESSION['add_to_cart'], function ($item) use ($selected_ids) {
-            return !in_array($item['id'], $selected_ids); // Hapus item yang dibeli
-        });
-
-        // Reset ulang array index agar tidak bolong
-        $_SESSION['add_to_cart'] = array_values($_SESSION['add_to_cart']);
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items'])) {
     $selected_ids = $_POST['selected_items'];
     $cart = isset($_SESSION['add_to_cart']) ? $_SESSION['add_to_cart'] : [];
@@ -35,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items'])) {
             $totalKeseluruhan += $total;
 
             // Simpan ke database
-            $stmt = $conn->prepare("INSERT INTO data_pembeli (username, alamat, nama_barang, jumlah, total, tanggal) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $koneksi->prepare("INSERT INTO data_pembeli (username, alamat, nama_barang, jumlah, total, tanggal) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssids", $username, $alamat, $nama_barang, $jumlah, $total, $tanggal);
             $stmt->execute();
         }

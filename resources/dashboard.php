@@ -21,11 +21,11 @@
             </div>
             
             <div class="menu">
-                <div class="menu-item active">
+                <div class="menu-item active" onclick="window.location.href='dashboard.php';">
                     <i class="fas fa-box"></i>
                     <span class="menu-text">PRODUK</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item " onclick="window.location.href='data_pembeli.php';">
                     <i class="fas fa-users"></i>
                     <span class="menu-text">DATA PEMBELI</span>
                 </div>
@@ -46,6 +46,7 @@
                 </div>
             </div>
             
+
             <!-- Products Section -->
             <div class="products-section">
                 <h2 class="section-title">Daftar Produk</h2>
@@ -140,6 +141,10 @@
                         <?php endfor; ?>
                     </div>
                 </div>
+
+
+                
+
             <div class="admin-footer">
                 <p>&copy; 2025 Furnispace Admin Portal. All rights reserved.</p>
             </div>
