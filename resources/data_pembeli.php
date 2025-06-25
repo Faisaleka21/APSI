@@ -27,11 +27,11 @@ include '../databases/koneksi.php';
             </div>
 
             <div class="menu">
-                <div class="menu-item active" onclick="window.location.href='dashboard.php';">
+                <div class="menu-item" onclick="window.location.href='dashboard.php';">
                     <i class="fas fa-box"></i>
                     <span class="menu-text">PRODUK</span>
                 </div>
-                <div class="menu-item " onclick="window.location.href='data_pembeli.php';">
+                <div class="menu-item active" onclick="window.location.href='data_pembeli.php';">
                     <i class="fas fa-users"></i>
                     <span class="menu-text">DATA PEMBELI</span>
                 </div>
