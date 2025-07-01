@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Jun 2025 pada 09.24
+-- Waktu pembuatan: 01 Jul 2025 pada 04.55
 -- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Versi PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,6 +39,32 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 (1, 'admin', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `data_pembeli`
+--
+
+CREATE TABLE `data_pembeli` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `nama_barang` varchar(255) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `total` varchar(50) NOT NULL,
+  `tanggal` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `data_pembeli`
+--
+
+INSERT INTO `data_pembeli` (`id`, `username`, `alamat`, `nama_barang`, `jumlah`, `total`, `tanggal`) VALUES
+(4, 'cihuy', 'kanigoro', 'Lemari Pakaian Sonokeling Etnik Tropis', 1, '5200000', '2025-06-25 11:13:58'),
+(6, 'cihuy', 'kanigoro', 'Meja Kopi Lift-Top Storage', 1, '2100000', '2025-06-25 11:17:39'),
+(7, 'paijo', '', 'Rak Dapur Wall Mounted Slim', 1, '550000', '2025-07-01 04:21:22'),
+(8, 'cihuy', 'kanigoro', 'Rak Dapur Dish Drying Rack Modern', 2, '760000', '2025-07-01 04:44:27');
 
 -- --------------------------------------------------------
 
@@ -140,9 +166,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `Email`, `alamat`) VALUES
 (3, 'bagus123', 'bagusdwo', 'c@gmail.com', 'ds. krenceng'),
-(4, 'dwi', 'hakiki', 'd@gmail.com', ''),
-(6, 'lia', 'lia', 'lia@gmail.com', ''),
-(7, 'cuaks', 'cuaks', 'cuaks@gmail.com', '');
+(7, 'cuaks', 'cuaks', 'cuaks@gmail.com', ''),
+(8, 'cihuy', 'cihuy', 'cihuy@gmail.com', 'kanigoro'),
+(9, 'o', 'o', 'o@gmail.com', 'o'),
+(10, 'paijo', 'paijo', 'paijo@gmail.com', '');
 
 --
 -- Indexes for dumped tables
@@ -155,6 +182,12 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `data_pembeli`
+--
+ALTER TABLE `data_pembeli`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `data_produk`
 --
 ALTER TABLE `data_produk`
@@ -164,7 +197,8 @@ ALTER TABLE `data_produk`
 -- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_username` (`username`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -177,16 +211,22 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `data_pembeli`
+--
+ALTER TABLE `data_pembeli`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT untuk tabel `data_produk`
 --
 ALTER TABLE `data_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
