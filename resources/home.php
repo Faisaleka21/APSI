@@ -95,9 +95,6 @@ header("Expires: 0");
 
               <!-- button perubahan -->
               <button type="submit" style="margin-top: 8px; background: #fbc02d; color: #fff; border: none; border-radius: 6px; padding: 8px 0; font-weight: 600; cursor: pointer;" name="update">Save Changes</button>
-              <div style="font-size: 0.65em; color: #b26a00; margin-top: 2px;">
-                *Harap login kembali untuk menerapkan pembaruan
-              </div>
             </form>
             <script>
 

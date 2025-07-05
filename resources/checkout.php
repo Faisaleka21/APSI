@@ -103,11 +103,11 @@ if (!empty($_SESSION['add_to_cart'])) {
             <form method="POST" action="proses_checkout.php" id="checkout-form">
                 <div style="margin-bottom: 10px;">
                     <label>
-                        <input type="radio" name="metode_pembayaran" value="transfer_bank" required onchange="updateMetodePembayaranLabel(this)">
+                        <input type="radio" name="metode_pembayaran" value="Transfer Bank" required onchange="updateMetodePembayaranLabel(this)">
                         Transfer Bank
                     </label>
                     <label style="margin-left: 20px;">
-                        <input type="radio" name="metode_pembayaran" value="cod" required onchange="updateMetodePembayaranLabel(this)">
+                        <input type="radio" name="metode_pembayaran" value="COD" required onchange="updateMetodePembayaranLabel(this)">
                         Cash On Delivery (COD)
                     </label>
                 </div>
@@ -161,9 +161,9 @@ if (!empty($_SESSION['add_to_cart'])) {
     function updateMetodePembayaranLabel(radio) {
         var value = radio.value;
         var label = '';
-        if (value === 'transfer_bank') {
+        if (value === 'Transfer Bank') {
             label = 'Transfer Bank';
-        } else if (value === 'cod') {
+        } else if (value === 'COD') {
             label = 'Cash On Delivery (COD)';
         }
         document.getElementById('metode-pembayaran-value').textContent = label;

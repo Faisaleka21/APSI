@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items'])) {
     $username = $user['username'];
     $alamat = $user['alamat'];
     $tanggal = date("Y-m-d H:i:s");
+    $pembayaran = $_POST['metode_pembayaran'];
 
     $totalKeseluruhan = 0;
 
@@ -21,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items'])) {
             $totalKeseluruhan += $total;
 
             // Simpan ke database
-            $stmt = $koneksi->prepare("INSERT INTO data_pembeli (username, alamat, nama_barang, jumlah, total, tanggal) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssids", $username, $alamat, $nama_barang, $jumlah, $total, $tanggal);
+            $stmt = $koneksi->prepare("INSERT INTO data_pembeli (username, alamat, nama_barang, jumlah, total, pembayaran, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssidss", $username, $alamat, $nama_barang, $jumlah, $total, $pembayaran, $tanggal);
             $stmt->execute();
         }
     }
